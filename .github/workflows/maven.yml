@@ -8,7 +8,7 @@
 
 name: Java CI with Maven
 
-env:
+env: &env
   imagename: romainbouton/back:github.ref_name
 
 on:
@@ -32,16 +32,12 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ vars.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_TOKEN }}
     - name: Build Docker Image
       run: docker build --file Dockerfile -t back:github.ref_name .
-  
-  login:
-    runs-on: ubuntu-latest
-    steps:
-      -
-        name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ vars.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
-
+    - name: Push image to Docker Hub
+      run: docker push &env.imagename
