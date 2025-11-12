@@ -8,8 +8,8 @@
 
 name: Java CI with Maven
 
-env: &env
-  imagename: romainbouton/back:github.ref_name
+env:
+  imagename: romainbouton/back:${{ github.ref_name }}
 
 on:
   push:
@@ -38,6 +38,6 @@ jobs:
         username: ${{ vars.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_TOKEN }}
     - name: Build Docker Image
-      run: docker build --file Dockerfile -t back:github.ref_name .
+      run: docker build --file Dockerfile -t ${{ env.imagename }} .
     - name: Push image to Docker Hub
-      run: docker push &env.imagename
+      run: docker push ${{ env.imagename }}
