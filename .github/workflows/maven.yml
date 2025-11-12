@@ -9,7 +9,7 @@
 name: Java CI with Maven
 
 env:
-  imagename: romainbouton/back:${{ github.ref_name }}
+  imagename: ${{ vars.DOCKER_USERNAME }}/back:${{ github.ref_name }}
 
 on:
   push:
