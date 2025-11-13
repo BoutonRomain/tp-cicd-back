@@ -35,7 +35,7 @@ jobs:
   docker:
     needs: build
     environment: ${{ (github.ref_name == 'master' || github.ref_type == 'tag') && 'Production' || github.ref_name == 'develop' && 'Développement' }}
-    if: github.envirionment != false
+    if: github.envirionment != 'false'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
