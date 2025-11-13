@@ -19,7 +19,6 @@ on:
 
 jobs:
   build:
-    if: github.action_ref == 'master' || github.ref_name == 'develop' || github.ref_type == 'tag'
     runs-on: ubuntu-latest
 
     steps:
