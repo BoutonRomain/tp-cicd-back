@@ -45,7 +45,6 @@ jobs:
   deploy:
     needs: build
     environment: ${{ (github.ref_name == 'master' || github.ref_type == 'tag') && 'Production' || 'Développement' }}
-    if: ${{ github.ref_type == 'tag' }}
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to Render
