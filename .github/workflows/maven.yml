@@ -31,11 +31,18 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+    - name: Debug Maven output
+      run: |
+        echo "=== Contents of target/ ==="
+        ls -l target || echo "No target directory found"
+        echo "=== Searching for .jar files ==="
+        find . -name "*.jar"
+
 
   docker:
     needs: build
+    if: github.ref_name == 'master' || github.ref_name == 'develop' || github.ref_type == 'tag'
     environment: ${{ (github.ref_name == 'master' || github.ref_type == 'tag') && 'Production' || github.ref_name == 'develop' && 'Développement' }}
-    if: github.envirionment != 'false'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
