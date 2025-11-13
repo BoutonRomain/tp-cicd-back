@@ -41,9 +41,10 @@ jobs:
       run: docker build --file Dockerfile -t ${{ env.imagename }} .
     - name: Push image to Docker Hub
       run: docker push ${{ env.imagename }}
-
+  
   deploy:
     needs: build
+    environment: ${{ (github.ref_name == 'master' && github.ref_type == 'tag') && 'Production' || 'Développe:ent' }}
     if: ${{ github.ref_type == 'tag' }}
     runs-on: ubuntu-latest
     steps:
